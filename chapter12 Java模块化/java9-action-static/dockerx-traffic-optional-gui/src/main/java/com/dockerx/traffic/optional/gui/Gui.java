@@ -1,0 +1,33 @@
+package com.dockerx.traffic.optional.gui;
+
+import com.dockerx.traffic.optional.entity.Person;
+
+/**
+ * @author Author  知秋
+ * @email fei6751803@163.com
+ * @time Created by Auser on 2017/11/21 13:37.
+ */
+public class Gui {
+    public static void main(String[] args) {
+        //module-info.java 文件中使用static修饰后,会在编译阶段直接忽略这个类，不会加载到文件系统中，
+        // 不过想要使用可以通过反射获取，我们有requires的
+        // 下面注释掉的两条语句都会报ClassNotFoundException
+        /*Person person = new Person(100, 1);
+        System.out.println(Person.class.getAnnotations().length);*/
+
+        System.out.println(Bike.class.getAnnotations().length);
+        System.out.println("Running without annotation @Anno present.");
+
+        try {
+            Class<?> clazz = Class.forName("com.dockerx.traffic.optional.entity.Person");
+            Person instance =
+                    (Person) clazz.getConstructor().newInstance();
+            instance.setMileage(10);
+            //同样，添加下面注释这句，就会报下面catch到的错了
+           // System.out.println(Person.class.getAnnotations().length);
+            System.out.println("Using Person");
+        } catch (ReflectiveOperationException e) {
+            System.out.println("Oops, we need a fallback!");
+        }
+    }
+}
