@@ -1,0 +1,2 @@
+module dockerx.module.starter {
+}
