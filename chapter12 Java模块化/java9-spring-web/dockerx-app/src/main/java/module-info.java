@@ -11,6 +11,4 @@ module dockerx.app {
     requires dockerx.admin;
     requires spring.beans;
     requires spring.web;
-
-    exports com.dockerx.web;
 }
