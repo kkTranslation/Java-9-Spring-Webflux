@@ -1,0 +1,8 @@
+int x=1
+x++
+System.out.println(x)
+/!
+/list
+/2
+/list
+/-2

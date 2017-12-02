@@ -1,0 +1,8 @@
+/set feedback verbose
+int x;
+/set feedback silent
+int y;
+/set feedback concise
+int z;
+/set feedback normal
+int normal;

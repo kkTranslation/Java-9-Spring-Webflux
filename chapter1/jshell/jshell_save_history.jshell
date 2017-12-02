@@ -1,0 +1,162 @@
+/help intro
+233 + 666
+System.getProperty("java.version")
+System.out.println($1)
+int add(int x, int y) {
+    return x + y;
+}
+add(233, 666)
+ /methods
+/save part1.jshell
+/methods
+/m
+/reset
+/open  part1.jshell
+/m
+/list
+/save -all part2.jshell
+  /m
+/save -all part2.jshell
+/save -history part3.jshell
+/save -start part4.jshell
+/env
+/help env
+/env
+/env -class-path ~/classes
+mkdir classes
+ls
+/env -class-path ~/jshell/classpath1
+/env
+/env -class-path ~/jshell/modulepath1
+/env
+/env -class-path ~/jshell/modulepath1 -module-path ~/jshell/classpath1
+/env
+/help  env
+/help set
+/set
+int add(int a,int b){return a+b;}
+int add(int a,int b){return a+b+b;}
+add(1,1)
+int x=5
+int x=6
+x
+/reset
+/help intro
+233 + 666
+System.getProperty("java.version")
+System.out.println($1)
+int add(int x, int y) {
+    return x + y;
+}
+add(233, 666)
+/methods
+int x
+double y = 2.33
+static int z = 1
+/vars
+/drop x
+x
+/vars
+class People {
+     private final String name;
+     public People(final String name) {
+         this.name = name;
+     }
+     public void showName() {
+         System.out.println(this.name);
+     }
+}
+People people = new People("DockerX");
+people.showName()
+class People {
+     private final String name;
+     public People(final String name) {
+         this.name = name;
+     }
+     public String showName() {
+         System.out.println(this.name);
+         return this.name;   
+     }
+}
+people.showName();
+People people = new People("Java9");
+people.showName().length();
+/types
+/list/help intro
+233 + 666
+System.getProperty("java.version")
+System.out.println($1)
+int add(int x, int y) {
+    return x + y;
+}
+add(233, 666)
+/methods
+int x
+double y = 2.33
+static int z = 1
+/vars
+/drop x
+x
+/vars
+class People {
+     private final String name;
+     public People(final String name) {
+         this.name = name;
+     }
+     public void showName() {
+         System.out.println(this.name);
+     }
+}
+People people = new People("DockerX");
+people.showName()
+class People {
+     private final String name;
+     public People(final String name) {
+         this.name = name;
+     }
+     public String showName() {
+         System.out.println(this.name);
+         return this.name;   
+     }
+}
+people.showName();
+People people = new People("Java9");
+people.showName().length();
+/types
+/reset
+Instant.now()
+import java.time.*
+Instant.now()
+/imports
+/list
+/list 2
+/drop 1
+Instant.now()
+int x=1
+x++
+/reset
+int x=1
+x++
+System.out.println(x)
+System.out.println(x)
+/list
+x++
+/list
+System.out.println(x)
+/reset
+int session = 5
+/reset
+int session = 1
+int session = 5
+/reset
+int session = 1
+int session = 5
+/save jshell_save.jshll
+/save -all jshell_save.jshll
+/save -history jshell_save.jshll
+/reset
+int session = 1
+int session = 5
+/save jshell_save.jshll
+/save -all jshell_save_all.jshll
+/save -history jshell_save_history.jshll

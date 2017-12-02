@@ -1,0 +1,4 @@
+/set start jshell_save.jshell
+/vars
+/reset
+/vars

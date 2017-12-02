@@ -1,0 +1,13 @@
+int session = 1
+int session = 5
+/save jshell_save.jshell
+/save -all jshell_save_all.jshell
+/save -history jshell_save_history.jshell
+/save -start jshell_save_start.jshell
+/vars
+/reset
+/vars
+/list
+/open jshell_save.jshell
+/list
+/vars
