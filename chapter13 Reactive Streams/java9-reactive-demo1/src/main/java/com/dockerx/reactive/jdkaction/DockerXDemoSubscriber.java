@@ -19,7 +19,6 @@ public class DockerXDemoSubscriber<T> implements Flow.Subscriber<T>{
     }
 
     public void onSubscribe(Flow.Subscription subscription) {
-        this.subscription = subscription;
         count = bufferSize - bufferSize / 2;// 当消费一半的时候重新请求
         (this.subscription = subscription).request(bufferSize);
     }
