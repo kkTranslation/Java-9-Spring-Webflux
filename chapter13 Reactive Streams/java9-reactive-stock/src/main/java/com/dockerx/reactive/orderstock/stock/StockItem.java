@@ -15,7 +15,7 @@ public class StockItem {
     public void store(long n) {
         amountItemStock.accumulateAndGet(n, (pre, mount) -> pre + mount);
     }
-    // 下订单时，没超过库存量的话就减去，超过的话，库存不做任何操作，否则返回的就是下了订单的数量。
+    // 下订单时，没超过库存量的话就减去，超过的话，库存不做任何操作，返回的就是下了库存移除的具体数量。
     public long remove(long n) {
         class RemoveData {
             long remove;
