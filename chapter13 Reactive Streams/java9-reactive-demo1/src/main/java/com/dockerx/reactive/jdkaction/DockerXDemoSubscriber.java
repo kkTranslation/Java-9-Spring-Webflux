@@ -27,7 +27,7 @@ public class DockerXDemoSubscriber<T> implements Flow.Subscriber<T>{
     }
 
     public void onSubscribe(Flow.Subscription subscription) {
-        count = bufferSize - bufferSize / 2;// 当消费一半的时候重新请求
+        //count = bufferSize - bufferSize / 2;// 当消费一半的时候重新请求
         (this.subscription = subscription).request(bufferSize);
         System.out.println("开始onSubscribe订阅");
         try {
@@ -38,11 +38,14 @@ public class DockerXDemoSubscriber<T> implements Flow.Subscriber<T>{
     }
 
     public void onNext(T item) {
-        if (--count <= 0) subscription.request(count = bufferSize - bufferSize / 2);
-        System.out.println(" ############# " + Thread.currentThread().getName()+"　"+name+"　"+item+"　"+count + " ############# ");
+        //if (--count <= 0) subscription.request(count = bufferSize - bufferSize / 2);
+        System.out.println(" ############# " + Thread.currentThread().getName()+"　name: "+name+"　item: "+item+ " ############# ");
         System.out.println(name + " received: " + item);
-
-
+        try {
+            Thread.sleep(10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
     }
 

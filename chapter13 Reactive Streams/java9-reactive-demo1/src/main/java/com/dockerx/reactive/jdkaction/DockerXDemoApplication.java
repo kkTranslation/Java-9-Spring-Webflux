@@ -14,7 +14,7 @@ import java.util.stream.IntStream;
 public class DockerXDemoApplication {
 
     public static void main(String[] args) {
-        Flow_submissionPublisher();
+        Flow_customsubmissionPublisher();
     }
 
     private static void demoSubscribe(DockerXDemoPublisher<Integer> publisher, String subscriberName){
@@ -23,7 +23,7 @@ public class DockerXDemoApplication {
         publisher.subscribe(subscriber);
     }
 
-    private static void Flow_submissionPublisher() {
+    private static void Flow_customsubmissionPublisher() {
         ExecutorService execService =  ForkJoinPool.commonPool();//Executors.newFixedThreadPool(3);
         try (DockerXDemoPublisher<Integer> publisher = new  DockerXDemoPublisher<>()){
             demoSubscribe(publisher,  "One");
