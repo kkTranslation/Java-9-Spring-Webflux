@@ -3,7 +3,6 @@ package com.dockerx.reactive.jdkaction;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.SubmissionPublisher;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
@@ -18,19 +17,18 @@ public class DockerXDemoApplication {
         Flow_submissionPublisher();
     }
 
-    private static void demoSubscribe(SubmissionPublisher<Integer> publisher, ExecutorService execService, String subscriberName){
+    private static void demoSubscribe(DockerXDemoPublisher<Integer> publisher, String subscriberName){
         DockerXDemoSubscriber<Integer> subscriber = new DockerXDemoSubscriber<>(4L,subscriberName);
-        DockerXDemoSubscription subscription = new DockerXDemoSubscription(subscriber, execService);
-        subscriber.onSubscribe(subscription);
+
         publisher.subscribe(subscriber);
     }
 
     private static void Flow_submissionPublisher() {
         ExecutorService execService =  ForkJoinPool.commonPool();//Executors.newFixedThreadPool(3);
-        try (SubmissionPublisher<Integer> publisher = new SubmissionPublisher<>()){
-            demoSubscribe(publisher, execService, "One");
-            demoSubscribe(publisher, execService, "Two");
-            demoSubscribe(publisher, execService, "Three");
+        try (DockerXDemoPublisher<Integer> publisher = new  DockerXDemoPublisher<>()){
+            demoSubscribe(publisher,  "One");
+            demoSubscribe(publisher,  "Two");
+            demoSubscribe(publisher,  "Three");
             IntStream.range(1, 5).forEach(publisher::submit);
         } finally {
             try {
