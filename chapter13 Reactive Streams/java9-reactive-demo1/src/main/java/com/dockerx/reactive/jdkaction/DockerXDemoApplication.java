@@ -25,7 +25,7 @@ public class DockerXDemoApplication {
 
     private static void Flow_customsubmissionPublisher() {
         ExecutorService execService =  ForkJoinPool.commonPool();//Executors.newFixedThreadPool(3);
-        try (DockerXDemoPublisher<Integer> publisher = new  DockerXDemoPublisher<>()){
+        try (DockerXDemoPublisher<Integer> publisher = new  DockerXDemoPublisher<>(execService)){
             demoSubscribe(publisher,  "One");
             demoSubscribe(publisher,  "Two");
             demoSubscribe(publisher,  "Three");

@@ -8,7 +8,7 @@ import java.util.concurrent.*;
  * @time Created by Auser on 2017/12/24 23:28.
  */
 public class DockerXDemoPublisher<T> implements Flow.Publisher<T>, AutoCloseable {
-    private final ExecutorService executor = ForkJoinPool.commonPool(); // daemon-based
+    private final ExecutorService executor; // daemon-based
     private CopyOnWriteArrayList<DockerXDemoSubscription> list = new CopyOnWriteArrayList();
 
 
@@ -18,6 +18,10 @@ public class DockerXDemoPublisher<T> implements Flow.Publisher<T>, AutoCloseable
             e.future=executor.submit(() -> { e.subscriber.onNext(item);});
 
         });
+    }
+
+    public DockerXDemoPublisher(ExecutorService executor) {
+        this.executor = executor;
     }
 
     public void close() {
