@@ -1,0 +1,7 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017
+      database: studentdb
+server:
+  port: 8080
