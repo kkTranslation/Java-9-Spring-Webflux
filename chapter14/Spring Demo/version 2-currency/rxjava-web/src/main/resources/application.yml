@@ -1,0 +1,16 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017
+      database: studentdb
+server:
+  port: 8080
+
+swagger:
+    title:  汇率服务
+    description: 外汇之间的转换
+    version: 1.0
+
+services:
+    currency:
+        uri: http://api.fixer.io/latest
