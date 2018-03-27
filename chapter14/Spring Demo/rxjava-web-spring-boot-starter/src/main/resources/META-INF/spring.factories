@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  dockerx.spring.boot.rxjava.config.RxJavaMvcAutoConfiguration
