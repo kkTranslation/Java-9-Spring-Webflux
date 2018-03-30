@@ -4,6 +4,7 @@ import com.dockerx.rxjavaweb.returnhandler.ObservableReturnValueHandler;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 import java.util.List;
@@ -20,5 +21,16 @@ public class Webconfig extends WebMvcConfigurationSupport {
     protected void addReturnValueHandlers(List<HandlerMethodReturnValueHandler> returnValueHandlers) {
         super.addReturnValueHandlers(returnValueHandlers);
         returnValueHandlers.add(new ObservableReturnValueHandler());
+    }
+
+    @Override
+    protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+        super.addResourceHandlers(registry);
+        registry.addResourceHandler("swagger-ui.html")
+                .addResourceLocations("classpath:/META-INF/resources/");
+
+        registry.addResourceHandler("/webjars/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/");
+
     }
 }

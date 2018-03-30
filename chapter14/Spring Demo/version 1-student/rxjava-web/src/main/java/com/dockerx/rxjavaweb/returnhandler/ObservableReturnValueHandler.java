@@ -8,6 +8,8 @@ import org.springframework.web.method.support.AsyncHandlerMethodReturnValueHandl
 import org.springframework.web.method.support.ModelAndViewContainer;
 import rx.Observable;
 
+import java.util.List;
+
 /**
  * @author Author  知秋
  * @email fei6751803@163.com
@@ -35,9 +37,9 @@ public class ObservableReturnValueHandler implements AsyncHandlerMethodReturnVal
                      .startDeferredResultProcessing(new ObservableAdapter<>(observable), mavContainer);
     }
 
-    public class ObservableAdapter<T> extends DeferredResult<T> {
+    public class ObservableAdapter<T> extends DeferredResult<List<T>> {
         ObservableAdapter(Observable<T> observable) {
-            observable.subscribe(this::setResult, this::setErrorResult);
+            observable.toList().subscribe(this::setResult, this::setErrorResult);
         }
     }
 }

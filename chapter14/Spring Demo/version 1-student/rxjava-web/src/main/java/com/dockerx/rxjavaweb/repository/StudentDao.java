@@ -47,7 +47,6 @@ public class StudentDao implements StudentRepository {
         return new Document(DocumentToStudentTransformer.NAME, student.getName())
                 .append(DocumentToStudentTransformer.AGE, student.getAge())
                 .append(DocumentToStudentTransformer.CREDIT, student.getCredit())
-
                 .append(DocumentToStudentTransformer.MAJOR, student.getMajor());
     }
     @Override

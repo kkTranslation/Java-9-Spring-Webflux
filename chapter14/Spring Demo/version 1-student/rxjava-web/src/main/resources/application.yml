@@ -5,3 +5,12 @@ spring:
       database: studentdb
 server:
   port: 8080
+
+swagger:
+    title:  汇率服务
+    description: 外汇之间的查询
+    version: 1.0
+
+services:
+    currency:
+        uri: http://api.fixer.io/latest
