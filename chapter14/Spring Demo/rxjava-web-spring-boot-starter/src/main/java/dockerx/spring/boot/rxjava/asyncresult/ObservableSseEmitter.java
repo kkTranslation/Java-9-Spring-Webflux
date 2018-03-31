@@ -25,7 +25,7 @@ public class ObservableSseEmitter<T> extends SseEmitter {
 
     public ObservableSseEmitter(Long timeout, MediaType mediaType, Observable<T> observable) {
         super(timeout);
-        observable.subscribe(new ResponseBodyEmitterObserver<T>(mediaType, this));
+        observable.subscribe(new ResponseBodyEmitterObserver<>(mediaType, this));
     }
 
     static final class ResponseBodyEmitterObserver<T> extends DisposableObserver<T> implements Runnable {

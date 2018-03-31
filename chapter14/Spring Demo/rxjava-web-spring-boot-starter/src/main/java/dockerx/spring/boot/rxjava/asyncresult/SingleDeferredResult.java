@@ -21,7 +21,7 @@ public class SingleDeferredResult<T> extends DeferredResult<T> {
     public SingleDeferredResult(Long timeout, Single<T> single) {
         super(timeout);
         Assert.notNull(single, "single can not be null");
-        single.toObservable().subscribe(new DeferredResultObserver<T>(this));
+        single.toObservable().subscribe(new DeferredResultObserver<>(this));
     }
 
     static final class DeferredResultObserver<T> extends DisposableObserver<T> implements Runnable {

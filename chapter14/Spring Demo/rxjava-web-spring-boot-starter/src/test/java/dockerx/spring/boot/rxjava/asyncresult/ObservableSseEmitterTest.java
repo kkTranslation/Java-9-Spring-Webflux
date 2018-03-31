@@ -10,6 +10,8 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -50,7 +54,7 @@ public class ObservableSseEmitterTest {
             return new ObservableSseEmitter<>(Observable.just("single value"));
         }
 
-        @RequestMapping(method = RequestMethod.GET, value = "/messages")
+        @RequestMapping(method = RequestMethod.GET, value = "/messages" ,produces = MediaType.TEXT_EVENT_STREAM_VALUE)
         public ObservableSseEmitter<String> messages() {
             return new ObservableSseEmitter<>(Observable.just("message 1", "message 2", "message 3"));
         }
@@ -93,10 +97,23 @@ public class ObservableSseEmitterTest {
 
         // when
         ResponseEntity<String> response = restTemplate.getForEntity(path("/events"), String.class);
-
+        System.out.println(response.getBody());
         // then
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+    @Test
+    public void shouldRetrieveJsonOverSseWithMultipleMessages2() throws URISyntaxException {
+
+        // when
+
+        RequestEntity<Void> requestEntity = RequestEntity.get(new URI(path("/events")))
+                                                 .accept(MediaType.TEXT_EVENT_STREAM).build();
+        ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
+        System.out.println(responseEntity.getBody());
+        // then
+        assertNotNull(responseEntity);
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
     private String path(String context) {

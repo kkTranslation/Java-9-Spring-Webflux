@@ -128,7 +128,7 @@ public class ObservableDeferredResultTest {
         // when
         ResponseEntity<List<EventDto>> response = restTemplate.exchange(path("/event"), HttpMethod.GET, null,
                 new ParameterizedTypeReference<List<EventDto>>() {});
-
+        System.out.println(response.getBody());
         // then
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
