@@ -1,0 +1,7 @@
+server:
+  port: 8080
+
+swagger:
+    title:  GITHUB用户仓库信息二三事
+    description: 查询事宜
+    version: 1.0
