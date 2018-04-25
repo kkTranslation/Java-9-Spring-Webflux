@@ -1,6 +1,7 @@
 package com.dockerx.rxreact.controller;
 
 import com.dockerx.rxreact.domain.Commit;
+import com.dockerx.rxreact.domain.Repository;
 import com.dockerx.rxreact.services.GitHubService;
 import io.reactivex.Flowable;
 import io.reactivex.schedulers.Schedulers;
@@ -28,6 +29,13 @@ public class ReposController {
     public ReposController(GitHubService gitHubService) {
         this.gitHubService = gitHubService;
     }
+    @ApiOperation(value="github用户所有仓库查询", notes="根据用户名称来查找其所有的仓库")
+    @ApiImplicitParam(name = "user", value = "所要查询的用户名称", required = true)
+    @GetMapping(value = "/0/{user}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Flowable<Repository> list0(@PathVariable String user){
+        return gitHubService.getRepos0(user).observeOn(Schedulers.io());
+    }
+
     @ApiOperation(value="github用户所有仓库查询", notes="根据用户名称来查找其所有的仓库")
     @ApiImplicitParam(name = "user", value = "所要查询的用户名称", required = true)
     @GetMapping(value = "{user}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

@@ -6,6 +6,7 @@ import com.dockerx.rxreact.domain.SingleCommit;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -39,7 +40,10 @@ public class GitHbubRepos {
         log.info(format("Get repos by user(%s)", user));
         String format = format(REPOS, user);
         // The results may be found null, that is, it will lead the field become null and should be judged
-        Repository[] forObject = restTemplate.getForObject(format, Repository[].class);
+        Repository[] forObject = restTemplate.getForObject(UriComponentsBuilder
+                .fromUriString(format)
+                .queryParam("direction","desc")
+                .toUriString(), Repository[].class);
         return Arrays.asList(forObject != null ? forObject : new Repository[0]);
     }
 

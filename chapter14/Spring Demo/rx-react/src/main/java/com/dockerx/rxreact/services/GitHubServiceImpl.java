@@ -33,20 +33,35 @@ public class GitHubServiceImpl implements GitHubService {
     public GitHubServiceImpl(GitHbubRepos gitHbubRepos) {
         this.gitHbubRepos = gitHbubRepos;
     }
-
+    @Override
+    public Flowable<Repository> getRepos0(String user) {
+        Callable<Iterator<Repository>> initialState =
+                gitHbubRepos.getRepos(user)
+                            .stream()::iterator;
+        BiConsumer<Iterator<Repository>, Emitter<Repository>> generator =
+                (iterator, emitter) -> {
+                    if (iterator.hasNext()) {
+                        emitter.onNext(iterator.next());
+                    } else {
+                        emitter.onComplete();
+                    }
+                };
+        return Flowable.generate(initialState, generator);
+    }
     @Override
     public Flowable<String> getRepos(String user) {
         Callable<Iterator<String>> initialState =
                 () -> gitHbubRepos.getRepos(user)
                                   .stream()
                                   .map(Repository::getName).iterator();
-        BiConsumer<Iterator<String>, Emitter<String>> generator = (iterator, emitter) -> {
-            if (iterator.hasNext()) {
-                emitter.onNext(iterator.next()+"  ");
-            } else {
-                emitter.onComplete();
-            }
-        };
+        BiConsumer<Iterator<String>, Emitter<String>> generator =
+                (iterator, emitter) -> {
+                    if (iterator.hasNext()) {
+                        emitter.onNext(iterator.next() + "  ");
+                    } else {
+                        emitter.onComplete();
+                    }
+                };
         return Flowable.generate(initialState, generator);
     }
 
@@ -56,7 +71,7 @@ public class GitHubServiceImpl implements GitHubService {
         return Flowable.create(emitter -> {
             gitHbubRepos.getRepos(user).stream()
                         .filter(repo -> repo.getPushed().isAfter(LocalDateTime.now().minusWeeks(1)))
-                        .map(item ->item.getName()+" ")
+                        .map(item -> item.getName() + " ")
                         .forEach(emitter::onNext);
             emitter.onComplete();
         }, BackpressureStrategy.BUFFER);
@@ -87,9 +102,7 @@ public class GitHubServiceImpl implements GitHubService {
             log.info(commit.toString());
             commit.getFiles().forEach(files -> {
                 log.info(files.toString());
-                if (files != null) {
-                    emitter.onNext(files);
-                }
+                emitter.onNext(files);
             });
             emitter.onComplete();
         }, BackpressureStrategy.BUFFER);
