@@ -2,6 +2,7 @@ package com.dockerx.rxreact.services;
 
 import com.dockerx.rxreact.domain.*;
 import com.dockerx.rxreact.repository.GitHbubRepos;
+import io.reactivex.Flowable;
 import io.reactivex.subscribers.TestSubscriber;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,11 +34,13 @@ public class GitHubServiceImplTest {
     @Before
     public void setup() {
         initMocks(this);
-        gitHubService=new GitHubServiceImpl(gitHbubRepos);
-        when(gitHbubRepos.getRepos(anyString())).thenAnswer(m->getReposForTest());
+        gitHubService = new GitHubServiceImpl(gitHbubRepos);
+        when(gitHbubRepos.getRepos(anyString())).thenAnswer(m -> getReposForTest());
 
         when(gitHbubRepos.getCommitsInWeek(anyString(), anyString())).thenAnswer(m -> getCommitsInWeekForTest());
-        when(gitHbubRepos.getSingleCommit(anyString(), anyString(), anyString())).thenAnswer(m -> getSingleCommitForTest());
+        when(gitHbubRepos.getSingleCommit(anyString(),
+                anyString(),
+                anyString())).thenAnswer(m -> getSingleCommitForTest());
         when(gitHbubRepos.getSingleCommitByUrl(anyString())).thenAnswer(m -> getSingleCommitForTest());
     }
 
@@ -52,6 +55,7 @@ public class GitHubServiceImplTest {
                 new Repository("repo3", LocalDateTime.now().minusDays(3))
         );
     }
+
     @Test
     public void getRepos() {
         TestSubscriber<String> testSubscriber = new TestSubscriber<>();
@@ -63,7 +67,7 @@ public class GitHubServiceImplTest {
         testSubscriber.assertNoErrors();
         assertThat(testSubscriber.values())
                 .as("getRepos returns all user code repository ")
-                .containsExactly("repo1  ","repo2  ", "repo3  ");
+                .containsExactly("repo1  ", "repo2  ", "repo3  ");
     }
 
     @Test
@@ -94,7 +98,6 @@ public class GitHubServiceImplTest {
     }
 
 
-
     @Test
     public void getCommittedFilesByUser() {
         TestSubscriber<CommittedFile> testSubscriber = new TestSubscriber<>();
@@ -117,13 +120,23 @@ public class GitHubServiceImplTest {
         return Arrays.asList(
                 Commit.builder()
                       .sha("sha1")
-                      .committer(new Committer("test-user","https://github.com/muyinchen","https://api.github.com/users/muyinchen/orgs"))
-                      .author(new Author("url2","https://github.com/muyinchen",true,"https://api.github.com/users/muyinchen/orgs"))
+                      .committer(new Committer("test-user",
+                              "https://github.com/muyinchen",
+                              "https://api.github.com/users/muyinchen/orgs"))
+                      .author(new Author("url2",
+                              "https://github.com/muyinchen",
+                              true,
+                              "https://api.github.com/users/muyinchen/orgs"))
                       .build(),
                 Commit.builder()
                       .sha("sha2")
-                      .committer(new Committer("no-test-user","https://github.com/muyinchen/no-test-user","https://api.github.com/users/muyinchen/orgs/no-test-user"))
-                      .author(new Author("url2","https://github.com/muyinchen/no-test-user",true,"https://api.github.com/users/muyinchen/orgs/no-test-user"))
+                      .committer(new Committer("no-test-user",
+                              "https://github.com/muyinchen/no-test-user",
+                              "https://api.github.com/users/muyinchen/orgs/no-test-user"))
+                      .author(new Author("url2",
+                              "https://github.com/muyinchen/no-test-user",
+                              true,
+                              "https://api.github.com/users/muyinchen/orgs/no-test-user"))
                       .build()
         );
     }
@@ -139,5 +152,21 @@ public class GitHubServiceImplTest {
                         new CommittedFile("filename2", 20)
                 )
         );
+    }
+
+    @Test
+    public void testTestSubscriber() {
+
+        TestSubscriber<String> testSubscriber = new TestSubscriber<>();
+        //In order to emit "1", "2", "3"
+        Flowable.just("1", "2", "3").subscribe(testSubscriber);
+        //Assert whether values are equal
+        testSubscriber.assertValues("1", "2", "3");
+        //Assert value does not exist
+        testSubscriber.assertNever("4");
+        //Is the number of asserted values equal?
+        testSubscriber.assertValueCount(3);
+        //Assertion terminated
+        testSubscriber.assertTerminated();
     }
 }

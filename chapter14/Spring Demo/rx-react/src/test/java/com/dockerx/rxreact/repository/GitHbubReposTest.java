@@ -65,7 +65,7 @@ public class GitHbubReposTest {
     @Test
     public void getCommitsInWeek() {
         String aWeekAgo = ZonedDateTime.now(ZoneOffset.UTC).minusWeeks(1).minusDays(1)
-                                       .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'00:00:00'Z'"));;
+                                       .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'00:00:00'Z'"));
         MockRestServiceServer mockServer = MockRestServiceServer.bindTo(restTemplate).build();
         mockServer.expect(requestTo(String.format(GitHbubRepos.COMMITS, user, repo, aWeekAgo)))
                   .andRespond(withSuccess( /*此处请自行添加结果测试，或者找自己的仓库设置*/
